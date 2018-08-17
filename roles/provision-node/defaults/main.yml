@@ -11,5 +11,6 @@ node_image_name: Fedora-Cloud-Base-28
 node_image_source: "https://download.fedoraproject.org/pub/fedora/linux/releases/28/Cloud/x86_64/images/Fedora-Cloud-Base-28-1.1.x86_64.qcow2"
 node_nics:
   - net-name=private
+  - net-name=provision
 node_server_name: node
 node_ssh_user: fedora

@@ -1,0 +1,16 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_prompt:
+    - name: "os_cloud"
+      prompt: "os_cloud name?"
+      default: "openstack"
+  roles:
+    - provision-node
+
+- hosts: node
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  roles:
+    - rdo-repos

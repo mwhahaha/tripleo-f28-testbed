@@ -46,7 +46,7 @@ Role Variables
      - "https://download.fedoraproject.org/pub/fedora/linux/releases/28/Cloud/x86_64/images/Fedora-Cloud-Base-28-1.1.x86_64.qcow2"
      - source of the glance image to upload
    * - `node_nics`
-     - [net-name=private]
+     - [net-name=private,net-name=provision]
      - generic nic configuration for the node
    * - `node_server_name`
      - node

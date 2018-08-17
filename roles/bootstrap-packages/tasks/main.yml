@@ -139,7 +139,7 @@
 
 - name: Create Local DLRN repo
   yum_repository:
-    name: 'local-dlrn'
+    name: 'delorean-local'
     description: Local DLRN built packages
     baseurl: "file://{{ build_repo_dir }}/DLRN/data/repos/current/"
     enabled: yes

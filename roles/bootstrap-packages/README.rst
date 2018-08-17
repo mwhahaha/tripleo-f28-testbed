@@ -1,5 +1,5 @@
-boostrap-packages
-=================
+bootstrap-packages
+==================
 
 This role is a stripped down version of the tripleo-quickstart-extra's
 build-test-packages_.
@@ -10,19 +10,45 @@ build-test-packages_.
 Role Variables
 --------------
 
-``release`` - current relase to follow (default: master)
-``build_repo_dir`` - workspace to use for the dlrn build (default: ansible_user_dir)
-``dlrn_dlrn_repo_url`` - git repo for DLRN (default: https://github.com/openstack-packages/DLRN.git)
-``dlrn_rdoinfo_repo_url`` - git repo for rdoinfo (default: https://github.com/redhat-openstack/rdoinfo)
-``dlrn_target`` - target for dlrn configuration (default: fedora)
-``dlrn_baseurl`` - base dlrn url to use (default: https://trunk.rdoproject.org/fedora/)
-``dlrn_use_local_mirrors`` - use only local mirrors (default: false)
-``dlrn_pre_installed`` - is dlrn pre installed (default: false)
-``dlrn_skipped_projects`` - list of projects not to try and build (default: false)
+.. list-table:: Variables used for bootstrap-packages
+   :widths: auto
+   :header-rows: 1
 
-``dlrn_change_list`` - list of project data to build
+   * - Name
+     - Default Value
+     - Description
+   * - release
+     - master
+     - current relase to follow
+   * - build_repo_dir
+     - ansible_user_dir
+     - workspace to use for the dlrn build
+   * - dlrn_dlrn_repo_url
+     - https://github.com/openstack-packages/DLRN.git
+     - git repo for DLRN
+   * - dlrn_rdoinfo_repo_url
+     - https://github.com/redhat-openstack/rdoinfo
+     - git repo for rdoinfo
+   * - dlrn_target
+     - fedora
+     - target for dlrn configuration
+   * - dlrn_baseurl
+     - https://trunk.rdoproject.org/fedora/
+     - base dlrn url to use
+   * - dlrn_use_local_mirrors
+     - false
+     - use only local mirrors
+   * - dlrn_pre_installed
+     - false
+     - is dlrn pre installed
+   * - dlrn_skipped_projects
+     - false
+     - list of projects not to try and build
+   * - dlrn_change_list
+     - []
+     - list of project data to build
 
-dlrn_change_list format:
+``dlrn_change_list`` format:
 
 .. code-block::
 

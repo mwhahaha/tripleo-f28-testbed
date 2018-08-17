@@ -11,19 +11,49 @@ Assumes clouds.yaml is used
 Role Variables
 --------------
 
-``os_cloud`` - cloud name to use for authentication
-``node_default_network`` - default network for the node (default: private)
-``node_flavor`` - flavor of the node (default: m1.xlarge)
-``node_image_container_format`` - glance image container format (default: bare)
-``node_image_create`` - flag to enable/disable glance image upload (default: False)
-``node_image_disk_format`` - glance image disk format (default: qcow2)
-``node_image_download_location`` - image location download before upload to cloud (default: "{{ lookup('env','PWD') }}")
-``node_image_name`` - glance image name to use (default: Fedora-Cloud-Base-28)
-``node_image_source`` - source of the glance image to upload (default: "https://download.fedoraproject.org/pub/fedora/linux/releases/28/Cloud/x86_64/images/Fedora-Cloud-Base-28-1.1.x86_64.qcow2")
-``node_nics`` - generic nic configuration for the node (default: [net-name=private])
-``node_server_name`` - node name (default: node)
-``node_ssh_user`` - ssh user to use (default: fedora)
+.. list-table:: Variables used for provision-node
+   :widths: auto
+   :header-rows: 1
 
+   * - Name
+     - Default Value
+     - Description
+   * - `os_cloud`
+     - None
+     - cloud name to use for authentication
+   * - `node_default_network`
+     - private
+     - default network for the node
+   * - `node_flavor`
+     - m1.xlarge
+     - flavor of the node
+   * - `node_image_container_format`
+     - bare
+     - glance image container format
+   * - `node_image_create`
+     - False
+     - flag to enable/disable glance image upload
+   * - `node_image_disk_format`
+     - qcow2
+     - glance image disk format
+   * - `node_image_download_location`
+     - "{{ lookup('env','PWD') }}"
+     - image location download before upload to cloud
+   * - `node_image_name`
+     - Fedora-Cloud-Base-28
+     - glance image name to use
+   * - `node_image_source`
+     - "https://download.fedoraproject.org/pub/fedora/linux/releases/28/Cloud/x86_64/images/Fedora-Cloud-Base-28-1.1.x86_64.qcow2"
+     - source of the glance image to upload
+   * - `node_nics`
+     - [net-name=private]
+     - generic nic configuration for the node
+   * - `node_server_name`
+     - node
+     - node name
+   * - `node_ssh_user`
+     - fedora
+     - ssh user to use
 
 License
 -------

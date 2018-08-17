@@ -17,34 +17,34 @@ Role Variables
    * - Name
      - Default Value
      - Description
-   * - release
+   * - `release`
      - master
      - current relase to follow
-   * - build_repo_dir
+   * - `build_repo_dir`
      - ansible_user_dir
      - workspace to use for the dlrn build
-   * - dlrn_dlrn_repo_url
+   * - `dlrn_dlrn_repo_url`
      - https://github.com/openstack-packages/DLRN.git
      - git repo for DLRN
-   * - dlrn_rdoinfo_repo_url
+   * - `dlrn_rdoinfo_repo_url`
      - https://github.com/redhat-openstack/rdoinfo
      - git repo for rdoinfo
-   * - dlrn_target
+   * - `dlrn_target`
      - fedora
      - target for dlrn configuration
-   * - dlrn_baseurl
+   * - `dlrn_baseurl`
      - https://trunk.rdoproject.org/fedora/
      - base dlrn url to use
-   * - dlrn_use_local_mirrors
+   * - `dlrn_use_local_mirrors`
      - false
      - use only local mirrors
-   * - dlrn_pre_installed
+   * - `dlrn_pre_installed`
      - false
      - is dlrn pre installed
-   * - dlrn_skipped_projects
+   * - `dlrn_skipped_projects`
      - false
      - list of projects not to try and build
-   * - dlrn_change_list
+   * - `dlrn_change_list`
      - []
      - list of project data to build
 

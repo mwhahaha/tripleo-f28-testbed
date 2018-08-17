@@ -1,0 +1,40 @@
+---
+- name: Launch VM
+  os_server:
+    cloud: "{{ os_cloud }}"
+    name: "{{ node_server_name }}"
+    state: present
+    flavor: "{{ node_flavor }}"
+    image: "{{ node_image_name }}"
+    key_name: "default"
+    nics: "{{ node_nics }}"
+    floating_ips: "{{ node_floating_ips|default('') }}"
+  register: node
+
+#- name: Assign floating ip
+#  os_floating_ip:
+#    cloud: "{{ os_cloud }}"
+#    network: "{{ node_floating_ip_network }}"
+#    nat_destination: "{{ node_default_network }}"
+#    server: "{{ node_server_name }}"
+
+- debug:
+    var: node
+
+- name: Adding node to ansible
+  add_host:
+    name: "{{ node_server_name }}"
+    groups: "openstack"
+    ansible_host: "{{ node.server.public_v4 }}"
+    ansible_user: "{{ node_ssh_user }}"
+    #ansible_become: True
+    ansible_ssh_common_args: '-o StrictHostKeyChecking=no' # we reuse the floating ip sooooOooOo ignore it
+
+- name: wait for server to start
+  command: >
+    ssh -o BatchMode=yes -o StrictHostKeyChecking=no
+    {{ node_ssh_user }}@{{ node.server.public_v4 }} true
+  register: result
+  until: result|success
+  retries: 300
+  delay: 5

@@ -1,0 +1,21 @@
+---
+- block:
+  - name: Update all packages with dnf
+    dnf : name=* state=latest
+    become: true
+    register: update_node_run_reboot
+
+  - include_tasks: reboot-server.yml
+    when: update_node_run_reboot.changed and update_reboot|bool
+  when: ansible_distribution == 'Fedora'
+
+- block:
+  - name: Update all packages with yum
+    yum: name=* state=latest
+    become: true
+    register: update_node_run_reboot
+  - include_tasks: reboot-server.yml
+    when: update_node_run_reboot.changed and update_reboot|bool
+  when: ansible_distribution == 'RedHat'
+
+

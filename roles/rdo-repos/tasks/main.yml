@@ -1,0 +1,19 @@
+---
+# tasks file for rdo-repos
+- name: Remove base fedora repos
+  file: path={{ item }} state=absent
+  with_fileglob: /etc/yum.repos.d/fedora*.repo
+  become: true
+
+- name: Install delorean-deps repo
+  get_url:
+    url: https://trunk.rdoproject.org/fedora/delorean-deps.repo
+    dest: /etc/yum.repos.d/delorean-deps.repo
+  become: true
+
+- name: Install delorean repo
+  get_url:
+    url: https://trunk.rdoproject.org/fedora/{{ rdo_fedora_repo }}/delorean.repo
+    dest: /etc/yum.repos.d/delorean.repo
+  become: true
+

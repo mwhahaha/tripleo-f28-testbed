@@ -1,0 +1,129 @@
+---
+release: master
+dlrn_target: fedora
+dlrn_baseurl: https://trunk.rdoproject.org/fedora
+ansible_user_dir: /home/fedora
+dlrn_compressed_gating_repo: /home/fedora/repo_data.tar.gz
+dlrn_change_list:
+# tripleo-common
+    - host: "https://github.com"
+      project: "openstack/tripleo-common"
+      branch: "master"
+      refspec: "master"
+# git fetch https://review.rdoproject.org/r/openstack/heat-distgit refs/changes/14/15214/17 && git checkout FETCH_HEAD
+    - host: "https://github.com"
+      project: "openstack/heat"
+      branch: "master"
+      refspec: "master"
+      distgit:
+        host: "https://review.rdoproject.org/r"
+        project: "openstack/heat-distgit"
+        refspec: "refs/changes/14/15214/17"
+# git fetch https://review.rdoproject.org/r/openstack/os-refresh-config-distgit refs/changes/15/15315/3 && git checkout FETCH_HEAD
+    - host: "https://github.com"
+      project: "openstack/os-refresh-config"
+      branch: "master"
+      refspec: "master"
+      distgit:
+        host: "https://review.rdoproject.org/r"
+        project: "openstack/os-refresh-config-distgit"
+        refspec: "refs/changes/15/15315/3"
+# git fetch ssh://mwhahaha@mwhahaha@review.rdoproject.org:29418/openstack/os-net-config-distgit refs/changes/53/15253/5 && git checkout FETCH_HEAD
+    - host: "https://github.com"
+      project: "openstack/os-net-config"
+      branch: "master"
+      refspec: "master"
+      distgit:
+        host: "https://review.rdoproject.org/r"
+        project: "openstack/os-net-config-distgit"
+        refspec: "refs/changes/53/15253/5"
+# git fetch ssh://mwhahaha@mwhahaha@review.rdoproject.org:29418/openstack/os-apply-config-distgit refs/changes/13/15313/4 && git checkout FETCH_HEAD
+    - host: "https://github.com"
+      project: "openstack/os-apply-config"
+      branch: "master"
+      refspec: "master"
+      distgit:
+        host: "https://review.rdoproject.org/r"
+        project: "openstack/os-apply-config-distgit"
+        refspec: "refs/changes/13/15313/4"
+# git fetch ssh://mwhahaha@mwhahaha@review.rdoproject.org:29418/openstack/paunch-distgit refs/changes/17/15317/8 && git checkout FETCH_HEAD
+    - host: "https://github.com"
+      project: "openstack/paunch"
+      branch: "master"
+      refspec: "master"
+      distgit:
+        host: "https://review.rdoproject.org/r"
+        project: "openstack/paunch-distgit"
+        refspec: "refs/changes/17/15317/8"
+# git fetch ssh://mwhahaha@mwhahaha@review.rdoproject.org:29418/openstack/os-collect-config-distgit refs/changes/16/15316/3 && git checkout FETCH_HEAD
+    - host: "https://github.com"
+      project: "openstack/os-collect-config"
+      branch: "master"
+      refspec: "master"
+      distgit:
+        host: "https://review.rdoproject.org/r"
+        project: "openstack/os-collect-config-distgit"
+        refspec: "refs/changes/16/15316/3"
+# git fetch ssh://mwhahaha@mwhahaha@review.rdoproject.org:29418/openstack/heat-agents-distgit refs/changes/10/15310/9 && git checkout FETCH_HEAD
+    - host: "https://github.com"
+      project: "openstack/heat-agents"
+      branch: "master"
+      refspec: "master"
+      distgit:
+        host: "https://review.rdoproject.org/r"
+        project: "openstack/heat-agents-distgit"
+        refspec: "refs/changes/10/15310/9"
+# git fetch ssh://mwhahaha@mwhahaha@review.rdoproject.org:29418/openstack/tripleo-image-elements-distgit refs/changes/62/15462/1 && git checkout FETCH_HEAD
+    - host: "https://github.com"
+      project: "openstack/tripleo-image-elements"
+      branch: "master"
+      refspec: "master"
+      distgit:
+        host: "https://review.rdoproject.org/r"
+        project: "openstack/tripleo-image-elements-distgit"
+        refspec: "refs/changes/62/15462/1"
+# git fetch ssh://mwhahaha@mwhahaha@review.rdoproject.org:29418/openstack/tripleo-puppet-elements-distgit refs/changes/63/15463/1 && git checkout FETCH_HEAD
+    - host: "https://github.com"
+      project: "openstack/tripleo-puppet-elements"
+      branch: "master"
+      refspec: "master"
+      distgit:
+        host: "https://review.rdoproject.org/r"
+        project: "openstack/tripleo-puppet-elements-distgit"
+        refspec: "refs/changes/63/15463/1"
+# git fetch ssh://mwhahaha@mwhahaha@review.rdoproject.org:29418/openstack/shade-distgit refs/changes/36/15436/4 && git checkout FETCH_HEAD
+    - host: "https://github.com"
+      project: "openstack-infra/shade"
+      branch: "master"
+      refspec: "master"
+      distgit:
+        host: "https://review.rdoproject.org/r"
+        project: "openstack/shade-distgit"
+        refspec: "refs/changes/36/15436/4"
+# git fetch ssh://mwhahaha@mwhahaha@review.rdoproject.org:29418/openstack/tripleo-validations-distgit refs/changes/66/15366/9 && git checkout FETCH_HEAD
+    - host: "https://github.com"
+      project: "openstack/tripleo-validations"
+      branch: "master"
+      refspec: "master"
+      distgit:
+        host: "https://review.rdoproject.org/r"
+        project: "openstack/tripleo-validations-distgit"
+        refspec: "refs/changes/66/15366/9"
+# git fetch https://review.rdoproject.org/r/openstack/tripleo-heat-templates-distgit refs/changes/71/15571/2 && git checkout FETCH_HEAD
+    - host: "https://github.com"
+      project: "openstack/tripleo-heat-templates"
+      branch: "master"
+      refspec: "master"
+      distgit:
+        host: "https://review.rdoproject.org/r"
+        project: "openstack/tripleo-heat-templates-distgit"
+        refspec: "refs/changes/71/15571/2"
+# git fetch ssh://mwhahaha@mwhahaha@review.rdoproject.org:29418/openstack/tripleoclient-distgit refs/changes/12/15212/10 && git checkout FETCH_HEAD
+    - host: "https://github.com"
+      project: "openstack/python-tripleoclient"
+      branch: "master"
+      refspec: "master"
+      distgit:
+        host: "https://review.rdoproject.org/r"
+        project: "openstack/tripleoclient-distgit"
+        refspec: "refs/changes/12/15212/10"

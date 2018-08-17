@@ -1,0 +1,148 @@
+---
+
+- name: Ensure DLRN package dependencies
+  become: yes
+  package: name={{ item }} state=present
+  with_items:
+    - createrepo
+    - gcc
+    - git
+    - libffi-devel
+    - mock
+    - openssl-devel
+    - python-virtualenv
+    - rpm-build
+    - sqlite
+    - redhat-rpm-config
+    - rpmdevtools
+    - libselinux-python
+
+- name: Create mock group
+  become: yes
+  group: name=mock state=present
+
+- name: Add user to mock group
+  become: yes
+  user:
+    name: '{{ ansible_user }}'
+    groups: mock
+    append: yes
+
+- name: Remove data files from previous runs
+  file:
+    path: '{{ build_repo_dir }}/DLRN'
+    state: absent
+  when: not dlrn_pre_installed|bool
+
+- name: Ensure DLRN dir is present
+  file:
+    path: '{{ build_repo_dir }}/DLRN/'
+    state: directory
+
+- name: drop in the templated version of projects.ini
+  template:
+    src: projects.ini.j2
+    dest: '{{ build_repo_dir }}/DLRN/projects.ini'
+
+- name: Install and update pip
+  pip:
+    name: pip
+    virtualenv: "{{ build_repo_dir }}/dlrn-venv"
+    state: latest
+    extra_args: --upgrade
+
+# TODO(aschultz): needed until a python3 compatible release is done (0.47.0)
+- name: Pip install rdopkg
+  pip:
+    name: git+https://github.com/softwarefactory-project/rdopkg
+    virtualenv: "{{ build_repo_dir }}/dlrn-venv"
+    state: latest
+  when: not dlrn_pre_installed|bool
+
+# TODO(aschultz): install from source cause python3
+# https://github.com/softwarefactory-project/DLRN/commit/a99b17ae1291f4a1e135e3f00c53404df41d68b7
+- name: Pip install DLRN
+  pip:
+    name: git+https://github.com/softwarefactory-project/DLRN
+    virtualenv: "{{ build_repo_dir }}/dlrn-venv"
+    state: latest
+  when: not dlrn_pre_installed|bool
+
+- name: Pip install pre-installed DLRN
+  shell: >
+    source {{ build_repo_dir }}/dlrn-venv/bin/activate;
+    pip install -r requirements.txt;
+    python setup.py install;
+  args:
+      chdir: '{{ build_repo_dir }}/DLRN'
+  when: dlrn_pre_installed|bool
+
+- name: copy the DLRN scripts in the virtualenv to the scripts dir
+  shell: "/usr/bin/cp -Rv {{ build_repo_dir }}/dlrn-venv/share/dlrn/scripts {{ build_repo_dir }}/DLRN/"
+
+# TODO(aschultz): hack
+- name: Use f28
+  shell: >
+    sed -ie 's/repo=rawhide/repo=fedora-28/' {{ build_repo_dir }}/DLRN/scripts/fedora.cfg
+  when: dlrn_target == 'fedora'
+
+- name: Fetch local rdoinfo copy
+  git:
+    repo: '{{ dlrn_rdoinfo_repo_url }}'
+    dest: '{{ build_repo_dir }}/DLRN/rdoinfo'
+    version: 'master'
+
+- name: Use custom target for DLRN
+  lineinfile:
+    dest: '{{ build_repo_dir }}/DLRN/projects.ini'
+    regexp: 'target=.*'
+    line: 'target=centos-local'
+  when: dlrn_use_local_mirrors|bool
+
+- name: Build project list
+  set_fact:
+    dlrn_rdo_packages: []
+  when: dlrn_rdo_packages is not defined
+
+- name: Clone the specific DLRN projects
+  include: dlrn-clone.yml dlrn_change={{ item }}
+  with_items: '{{ dlrn_change_list|default([]) }}'
+  when:
+    - item.project not in dlrn_skipped_projects
+    - release in item.branch
+
+- debug:
+    var: dlrn_rdo_packages
+
+- name: Run DLRN
+  shell: >
+    set +e;
+    source {{ build_repo_dir }}/dlrn-venv/bin/activate;
+    while true; do
+        dlrn --config-file projects.ini --head-only --package-name {{ dlrn_rdo_packages|join(' --package-name ')}} --local --info-repo rdoinfo --dev --order;
+        if [ $? -eq 0 ]; then
+            # SUCCESS
+            break;
+        elif [ $? -eq 1 ]; then
+            # FAILED
+            exit 1;
+        elif [ $? -eq 2 ]; then
+            # RETRY
+            continue;
+        fi;
+        # Unexpected DLRN return code
+        exit $?;
+    done;
+  args:
+    chdir: '{{ build_repo_dir }}/DLRN'
+  register: repo_built
+
+- name: Create Local DLRN repo
+  yum_repository:
+    name: 'local-dlrn'
+    description: Local DLRN built packages
+    baseurl: "file://{{ build_repo_dir }}/DLRN/data/repos/current/"
+    enabled: yes
+    gpgcheck: no
+  when: repo_built.rc == 0
+  become: True

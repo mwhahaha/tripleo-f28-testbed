@@ -1,0 +1,13 @@
+---
+- name: Download cloud image
+  get_url:
+    url: "{{ node_image_source }}"
+    dest: "{{ node_image_download_location }}/{{ node_image_name }}"
+
+- os_image:
+    cloud: "{{ os_cloud }}"
+    name: "{{ node_image_name }}"
+    container_format: "{{ node_image_container_format }}"
+    disk_format: "{{ node_image_disk_format }}"
+    state: present
+    filename: "{{ node_image_download_location }}/{{ node_image_name }}"

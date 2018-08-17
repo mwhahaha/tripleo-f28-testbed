@@ -1,0 +1,15 @@
+---
+
+build_repo_dir: "{{ ansible_user_dir }}"
+
+release: master
+dlrn_dlrn_repo_url: "https://github.com/openstack-packages/DLRN.git"
+dlrn_rdoinfo_repo_url: "https://github.com/redhat-openstack/rdoinfo"
+dlrn_compressed_gating_repo: "/home/stack/gating_repo.tar.gz"
+dlrn_target: fedora
+dlrn_baseurl: "https://trunk.rdoproject.org/fedora/"
+dlrn_use_local_mirrors: false
+dlrn_pre_installed: false
+
+dlrn_skipped_projects: []
+

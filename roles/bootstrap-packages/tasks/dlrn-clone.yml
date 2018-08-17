@@ -1,0 +1,72 @@
+---
+- name: Set release name
+  set_fact:
+    dlrn_release: "{{ dlrn_change.branch | replace('stable/', '') }}"
+
+- name: Set DLRN distro (legacy distgit branch naming)
+  set_fact:
+    dlrn_distro: "rpm-{{ dlrn_release }}"
+  when: dlrn_release in ['master', 'mitaka']
+
+- name: Set DLRN distro (new stable branch naming scheme)
+  set_fact:
+    dlrn_distro: "{{ dlrn_release }}-rdo"
+  when: dlrn_release not in ['master', 'mitaka']
+
+- name: Use local baseurl when using local mirrors
+  set_fact:
+    dlrn_baseurl: 'file:///tmp/fake-dlrn-repos'
+  when: dlrn_use_local_mirrors|bool
+
+- name: Map project name to DLRN project name
+  register: project_name_mapped
+  shell: >
+    source {{ build_repo_dir }}/dlrn-venv/bin/activate;
+    export PROJECT_NAME=$(echo {{ dlrn_change.project }} | awk -F'/' '{ print $2 }');
+    rdopkg findpkg -s $PROJECT_NAME -l rdoinfo | grep ^name | awk '{print $2}'
+  args:
+      chdir: '{{ build_repo_dir }}/DLRN'
+
+- debug:
+    msg: "WARNING: Unable to build {{ dlrn_change.project }}. No pkg found."
+  when: project_name_mapped.stdout == ''
+
+- when: project_name_mapped.stdout != ''
+  block:
+    - name: Append project name to list
+      set_fact:
+        dlrn_rdo_packages: '{{ dlrn_rdo_packages }} + {{ [ project_name_mapped.stdout ] }}'
+
+    - debug:
+        var: dlrn_rdo_packages
+
+    - name: Create data directory if doesn't exist yet
+      file: path="{{ build_repo_dir }}/DLRN/data/" state=directory
+
+    - debug:
+        var: dlrn_change
+
+    - name: Copy from ready directories if configured
+      command: >
+        cp -raf {{ dlrn_repos_dir }}/{{ dlrn_change.project|regex_replace('openstack[^/]*/', '') }}
+        {{ build_repo_dir }}/DLRN/data/{{ project_name_mapped.stdout }}
+      ignore_errors: true
+      register: copy_dir
+      when: dlrn_repos_dir is defined
+
+    - name: Clone the gated change
+      git:
+        repo: '{{ dlrn_change.host }}/{{ dlrn_change.project }}'
+        dest: '{{ build_repo_dir }}/DLRN/data/{{ project_name_mapped.stdout }}'
+        refspec: '{{ dlrn_change.refspec }}'
+        version: 'FETCH_HEAD'
+      when: dlrn_change.host != "" and (dlrn_repos_dir is not defined or copy_dir is failed)
+
+    - name: Clone the distgit change
+      git:
+        repo: '{{ dlrn_change.distgit.host }}/{{ dlrn_change.distgit.project }}'
+        dest: '{{ build_repo_dir }}/DLRN/data/{{ project_name_mapped.stdout }}_distro'
+        refspec: '{{ dlrn_change.distgit.refspec }}'
+        version: 'FETCH_HEAD'
+        accept_hostkey: yes
+      when: dlrn_change.distgit is defined and (dlrn_repos_dir is not defined or copy_dir is failed)

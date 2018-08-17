@@ -1,0 +1,3 @@
+---
+# defaults file for rdo-repos
+rdo_fedora_repo: current

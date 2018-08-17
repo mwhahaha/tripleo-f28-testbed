@@ -1,0 +1,15 @@
+---
+# defaults file for provision-node
+node_default_network: private
+node_flavor: m1.xlarge
+node_image_container_format: bare
+node_image_create: False
+node_image_disk_format: qcow2
+#node_image_download_location: "/var/tmp"
+node_image_download_location: "{{ lookup('env','PWD') }}"
+node_image_name: Fedora-Cloud-Base-28
+node_image_source: "https://download.fedoraproject.org/pub/fedora/linux/releases/28/Cloud/x86_64/images/Fedora-Cloud-Base-28-1.1.x86_64.qcow2"
+node_nics:
+  - net-name=private
+node_server_name: node
+node_ssh_user: fedora

@@ -1,0 +1,8 @@
+---
+# tasks file for provision-node
+- name: Upload VM Image
+  include_tasks: image.yml
+  when: node_image_create|bool
+
+- name: Launch VM
+  include_tasks: vm.yml

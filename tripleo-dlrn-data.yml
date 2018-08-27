@@ -55,7 +55,7 @@ dlrn_change_list:
         host: "https://review.rdoproject.org/r"
         project: "openstack/paunch-distgit"
         refspec: "refs/changes/17/15317/8"
-# git fetch https://review.rdoproject.org/r/openstack/os-collect-config-distgit refs/changes/16/15316/3 && git checkout FETCH_HEAD
+# git fetch https://review.rdoproject.org/r/openstack/os-collect-config-distgit refs/changes/16/15316/4 && git checkout FETCH_HEAD
     - host: "https://github.com"
       project: "openstack/os-collect-config"
       branch: "master"
@@ -63,7 +63,7 @@ dlrn_change_list:
       distgit:
         host: "https://review.rdoproject.org/r"
         project: "openstack/os-collect-config-distgit"
-        refspec: "refs/changes/16/15316/3"
+        refspec: "refs/changes/16/15316/4"
 # git fetch https://review.rdoproject.org/r/openstack/heat-agents-distgit refs/changes/10/15310/9 && git checkout FETCH_HEAD
     - host: "https://github.com"
       project: "openstack/heat-agents"
@@ -100,7 +100,7 @@ dlrn_change_list:
         host: "https://review.rdoproject.org/r"
         project: "openstack/shade-distgit"
         refspec: "refs/changes/36/15436/4"
-# git fetch https://review.rdoproject.org/r/openstack/tripleo-validations-distgit refs/changes/66/15366/9 && git checkout FETCH_HEAD
+# git fetch https://review.rdoproject.org/r/openstack/tripleo-validations-distgit refs/changes/66/15366/10 && git checkout FETCH_HEAD
     - host: "https://github.com"
       project: "openstack/tripleo-validations"
       branch: "master"
@@ -108,7 +108,7 @@ dlrn_change_list:
       distgit:
         host: "https://review.rdoproject.org/r"
         project: "openstack/tripleo-validations-distgit"
-        refspec: "refs/changes/66/15366/9"
+        refspec: "refs/changes/66/15366/10"
 # git fetch https://review.rdoproject.org/r/openstack/tripleo-heat-templates-distgit refs/changes/71/15571/2 && git checkout FETCH_HEAD
     - host: "https://github.com"
       project: "openstack/tripleo-heat-templates"
@@ -118,7 +118,7 @@ dlrn_change_list:
         host: "https://review.rdoproject.org/r"
         project: "openstack/tripleo-heat-templates-distgit"
         refspec: "refs/changes/71/15571/2"
-# git fetch https://review.rdoproject.org/r/openstack/tripleoclient-distgit refs/changes/12/15212/10 && git checkout FETCH_HEAD
+# git fetch https://review.rdoproject.org/r/openstack/tripleoclient-distgit refs/changes/12/15212/11 && git checkout FETCH_HEAD
     - host: "https://github.com"
       project: "openstack/python-tripleoclient"
       branch: "master"
@@ -126,4 +126,4 @@ dlrn_change_list:
       distgit:
         host: "https://review.rdoproject.org/r"
         project: "openstack/tripleoclient-distgit"
-        refspec: "refs/changes/12/15212/10"
+        refspec: "refs/changes/12/15212/11"

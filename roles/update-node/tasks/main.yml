@@ -17,5 +17,3 @@
   - include_tasks: reboot-server.yml
     when: update_node_run_reboot.changed and update_reboot|bool
   when: ansible_distribution == 'RedHat'
-
-

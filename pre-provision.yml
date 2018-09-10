@@ -1,0 +1,9 @@
+---
+# use -i inventory.yml
+- hosts: node
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  roles:
+    - update-node
+    - bootstrap-packages
+    - rdo-repos

@@ -12,8 +12,22 @@ Requirements
    address already configured (set in config.yml)
 3. Ansible 2.4 or greater
 
-How to run
-----------
+How to run (pre-provisioned node)
+---------------------------------
+
+1. Have inventory.yml
+
+   Must have a 'node' designated.
+
+2. Run the following ansible-playbook
+
+.. code-block::
+
+    ansible-playbook.yml -i inventory.yml --extra-vars "@config.yml" --extra-vars "@tripleo-dlrn-data.yml"
+
+
+How to run (provision cloud node automagically)
+-----------------------------------------------
 
 1. Modify config.yml
 

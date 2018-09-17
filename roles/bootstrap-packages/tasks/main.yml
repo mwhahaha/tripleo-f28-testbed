@@ -16,6 +16,7 @@
     - redhat-rpm-config
     - rpmdevtools
     - libselinux-python
+    - python3-libselinux
 
 - name: Create mock group
   become: yes
